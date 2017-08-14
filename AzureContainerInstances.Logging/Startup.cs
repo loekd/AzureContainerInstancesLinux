@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AzureContainerInstances.Logging.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,9 @@ namespace AzureContainerInstances.Logging
         {
             // Add framework services.
             services.AddMvc();
+
+			//add logger
+	        services.AddSingleton<IMessageLogger>(new InMemoryMessageLogger());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
