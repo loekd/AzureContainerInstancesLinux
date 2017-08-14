@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  azurecontainerinstances.jobgenerator:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  azurecontainerinstances.logging:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+networks:
+  default:
+    external:
+      name: "nat"
