@@ -22,10 +22,8 @@ namespace AzureContainerInstances.JobProcessing
 		private static void Main()
 		{
 			_connectionStringForReading = Environment.GetEnvironmentVariable(MicrosoftServicebusConnectionStringSettingName);
-
 			var loggingServiceUrlEnvironmentVariable = Environment.GetEnvironmentVariable(LoggingServiceUrlSettingName);
-			//loggingServiceUrlEnvironmentVariable = @"http://localhost:20337";
-
+			
 			if (!string.IsNullOrWhiteSpace(loggingServiceUrlEnvironmentVariable))
 			{
 				_loggingServiceUrl = new Uri(loggingServiceUrlEnvironmentVariable);
@@ -84,14 +82,14 @@ namespace AzureContainerInstances.JobProcessing
 			return LogMessage(arg.Exception.ToString());
 		}
 
-		private static Task LogMessage(string message)
+		private static async Task LogMessage(string message)
 		{
-			if (string.IsNullOrWhiteSpace(message)) return Task.CompletedTask;
+			if (string.IsNullOrWhiteSpace(message)) return;
 
 			message = $"JobProcessing - {ProcessId:D5} - {DateTime.UtcNow:O} - {message}";
 			Console.WriteLine(message);
 
-			if (_loggingServiceUrl == null) return Task.CompletedTask;
+			if (_loggingServiceUrl == null) return;
 
 			string json = JsonConvert.SerializeObject(new LogMessage
 			{
@@ -99,7 +97,14 @@ namespace AzureContainerInstances.JobProcessing
 			});
 
 			var content = new StringContent(json, Encoding.Unicode, "application/json");
-			return _httpClient.PostAsync(new Uri(_loggingServiceUrl, "api/logs"), content);
+
+			try
+			{
+				await _httpClient.PostAsync(new Uri(_loggingServiceUrl, "api/logs"), content);
+			}
+			catch
+			{
+			}
 		}
 	}
 }

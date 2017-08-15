@@ -1,26 +1,24 @@
 version: '2'
 
 services:
+  azurecontainerinstances.logging:
+    image: "loekd/azurecontainerinstances.logging"
+    build:
+      context: ./AzureContainerInstances.Logging
+      dockerfile: Dockerfile
+
   azurecontainerinstances.jobgenerator:
     image: "loekd/azurecontainerinstances.jobgenerator"
     environment:
-      - "Microsoft.ServiceBus.ConnectionString"
-      - "LoggingServiceUrl"
+      - "LoggingServiceUrl=http://azurecontainerinstances.logging:8080"
     build:
       context: ./AzureContainerInstances.JobGenerator
       dockerfile: Dockerfile
 
   azurecontainerinstances.jobprocessing:
     image: "loekd/azurecontainerinstances.jobprocessing"
-    environment:
-      - "Microsoft.ServiceBus.ConnectionString"
-      - "LoggingServiceUrl"
+    environment:     
+      - "LoggingServiceUrl=http://azurecontainerinstances.logging:8080"
     build:
       context: ./AzureContainerInstances.JobProcessing
-      dockerfile: Dockerfile
-
-  azurecontainerinstances.logging:
-    image: "loekd/azurecontainerinstances.logging"
-    build:
-      context: ./AzureContainerInstances.Logging
       dockerfile: Dockerfile

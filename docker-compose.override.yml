@@ -5,15 +5,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "80"
+      - "80:80"
 
   azurecontainerinstances.logging:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "80"
+      - "8080:8080"
 
-networks:
-  default:
-    external:
-      name: "nat"

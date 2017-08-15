@@ -25,7 +25,6 @@ namespace AzureContainerInstances.JobGenerator.Controllers
 		{
 			_connectionStringForWriting = Environment.GetEnvironmentVariable(MicrosoftServicebusConnectionStringSettingName);
 			var loggingServiceUrlEnvironmentVariable = Environment.GetEnvironmentVariable(LoggingServiceUrlSettingName);
-			//loggingServiceUrlEnvironmentVariable = @"http://localhost:20337";
 			if (!string.IsNullOrWhiteSpace(loggingServiceUrlEnvironmentVariable))
 			{
 				_loggingServiceUrl = new Uri(loggingServiceUrlEnvironmentVariable);
@@ -63,6 +62,24 @@ namespace AzureContainerInstances.JobGenerator.Controllers
 
 			return Ok(jobDescription);
 		}
+
+		// GET api/job/results
+		[HttpGet]
+		[Route("results")]
+		public async Task<IActionResult> GetResults()
+		{
+			try
+			{
+				string json = await _httpClient.GetStringAsync(new Uri(_loggingServiceUrl, "api/logs"));
+				var messages = JsonConvert.DeserializeObject<LogMessage[]>(json);
+				return Ok(messages);
+			}
+			catch 
+			{
+			}
+			return NoContent();
+		}
+
 
 		// POST api/job
 		[HttpPost]
@@ -104,9 +121,9 @@ namespace AzureContainerInstances.JobGenerator.Controllers
 			}
 		}
 
-		private Task LogMessageAsync(string message)
+		private async Task LogMessageAsync(string message)
 		{
-			if (_loggingServiceUrl == null || string.IsNullOrWhiteSpace(message)) return Task.CompletedTask;
+			if (_loggingServiceUrl == null || string.IsNullOrWhiteSpace(message)) return;
 
 			string json = JsonConvert.SerializeObject(new LogMessage
 			{
@@ -114,7 +131,14 @@ namespace AzureContainerInstances.JobGenerator.Controllers
 			});
 
 			var content = new StringContent(json, Encoding.Unicode, "application/json");
-			return  _httpClient.PostAsync(new Uri(_loggingServiceUrl, "api/logs"), content);
+			try
+			{
+				await  _httpClient.PostAsync(new Uri(_loggingServiceUrl, "api/logs"), content);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Ërror writing to logging service '{_loggingServiceUrl}': {ex}.");
+			}
 		}
 	}
 }

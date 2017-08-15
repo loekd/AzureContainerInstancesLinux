@@ -8,29 +8,25 @@ services:
     working_dir: /src
     command: /bin/bash -c "dotnet restore ./AzureContainerInstancesLinux.sln && dotnet publish ./AzureContainerInstancesLinux.sln -c Release -o ./obj/Docker/publish"
 
+  azurecontainerinstances.logging:
+    image: "loekd/azurecontainerinstances.logging"    
+    build:
+      context: .\AzureContainerInstances.Logging
+      dockerfile: Dockerfiles  
+
   azurecontainerinstances.jobgenerator:
     image: "loekd/azurecontainerinstances.jobgenerator"     
     build:
       context: .\AzureContainerInstances.JobGenerator
       dockerfile: Dockerfile
     environment:
-      - "LoggingServiceUrl"
       - "Microsoft.ServiceBus.ConnectionString="
-
+    
   azurecontainerinstances.jobprocessing:
     image: "loekd/azurecontainerinstances.jobprocessing"
     build:
       context: .\AzureContainerInstances.JobProcessing
       dockerfile: Dockerfile
     environment:
-      - "LoggingServiceUrl"
       - "Microsoft.ServiceBus.ConnectionString="
-
-  azurecontainerinstances.logging:
-    image: "loekd/azurecontainerinstances.logging"    
-    build:
-      context: .\AzureContainerInstances.Logging
-      dockerfile: Dockerfiles
-    environment:
-      - "LoggingServiceUrl"
-      - "Microsoft.ServiceBus.ConnectionString="
+  

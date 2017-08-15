@@ -1,0 +1,127 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourceGroupName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]"
+    },
+    "containername1": {
+      "type": "string",
+      "defaultValue": "logging"
+    },
+    "containerimage1": {
+      "type": "string",
+      "defaultValue": "loekd/azurecontainerinstances.logging:1.0"
+    },
+    "containername2": {
+      "type": "string",
+      "defaultValue": "jobgenerator"
+    },
+    "containerimage2": {
+      "type": "string",
+      "defaultValue": "loekd/azurecontainerinstances.jobgenerator:1.0"
+    },
+    "containername3": {
+      "type": "string",
+      "defaultValue": "jobprocessing"
+    },
+    "containerimage3": {
+      "type": "string",
+      "defaultValue": "loekd/azurecontainerinstances.jobprocessing:1.0"
+    },
+
+    "Microsoft.ServiceBus.ConnectionString": {
+      "type": "securestring",
+      "defaultValue": ""
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+      "name": "[parameters('resourceGroupName')]",
+      "type": "Microsoft.ContainerInstance/containerGroups",
+      "apiVersion": "2017-08-01-preview",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "containers": [
+          {
+            "name": "[parameters('containername1')]",
+            "properties": {
+              "image": "[parameters('containerimage1')]",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 1
+                }
+              },
+              "ports": [
+                {
+                  "port": 8080
+                }
+              ]
+            }
+          },
+          {
+            "name": "[parameters('containername2')]",
+            "properties": {
+              "image": "[parameters('containerimage2')]",
+              "environmentVariables": [
+                {
+                  "name": "Microsoft.ServiceBus.ConnectionString",
+                  "value": "[parameters('Microsoft.ServiceBus.ConnectionString')]"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 1
+                }
+              }
+            }
+          },
+          {
+            "name": "[parameters('containername3')]",
+            "properties": {
+              "image": "[parameters('containerimage3')]",
+              "environmentVariables": [
+                {
+                  "name": "Microsoft.ServiceBus.ConnectionString",
+                  "value": "[parameters('Microsoft.ServiceBus.ConnectionString')]"
+                }
+              ],
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 1
+                }
+              },
+              "ports": [
+                {
+                  "port": 80
+                }
+              ]
+            }
+          }
+        ],
+        "osType": "Linux",
+        "ipAddress": {
+          "type": "Public",
+          "ports": [
+            {
+              "protocol": "tcp",
+              "port": "80"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "containerIPv4Address": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ContainerInstance/containerGroups/', resourceGroup().name)).ipAddress.ip]"
+    }
+  }
+}
