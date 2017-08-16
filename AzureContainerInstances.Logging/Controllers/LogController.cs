@@ -1,5 +1,4 @@
-﻿using System;
-using AzureContainerInstances.Logging.Logging;
+﻿using AzureContainerInstances.Logging.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +34,7 @@ namespace AzureContainerInstances.Logging.Controllers
 		public IActionResult Post([FromBody]LogMessage message)
 		{
 			if (message == null || string.IsNullOrWhiteSpace(message.Message))
-				throw new Exception($"Value for {nameof(message)} is missing.");
+				return BadRequest($"Value for {nameof(message)} is missing.");
 
 			_messageLogger.Log(message.Message);
 
