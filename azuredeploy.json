@@ -6,33 +6,37 @@
       "type": "string",
       "defaultValue": "[resourceGroup().name]"
     },
-    "containername1": {
+    "loggingContainerName": {
       "type": "string",
       "defaultValue": "logging"
     },
-    "containerimage1": {
+    "loggingContainerImage": {
       "type": "string",
       "defaultValue": "loekd/azurecontainerinstances.logging:1.0"
     },
-    "containername2": {
+    "jobGeneratorContainerName": {
       "type": "string",
       "defaultValue": "jobgenerator"
     },
-    "containerimage2": {
+    "jobGeneratorContainerImage": {
       "type": "string",
       "defaultValue": "loekd/azurecontainerinstances.jobgenerator:1.0"
     },
-    "containername3": {
+    "jobProcessingContainerName": {
       "type": "string",
       "defaultValue": "jobprocessing"
     },
-    "containerimage3": {
+    "jobProcessingContainerImage": {
       "type": "string",
       "defaultValue": "loekd/azurecontainerinstances.jobprocessing:1.0"
     },
     "serviceBusConnectionString": {
       "type": "securestring",
       "defaultValue": ""
+    },
+    "loggingServiceUrl": {
+      "type": "string",
+      "defaultValue": "http://azurecontainerinstances.logging:8080"
     }
   },
   "variables": {
@@ -46,9 +50,9 @@
       "properties": {
         "containers": [
           {
-            "name": "[parameters('containername1')]",
+            "name": "[parameters('loggingContainerName')]",
             "properties": {
-              "image": "[parameters('containerimage1')]",
+              "image": "[parameters('loggingContainerImage')]",
               "resources": {
                 "requests": {
                   "cpu": 1,
@@ -63,27 +67,9 @@
             }
           },
           {
-            "name": "[parameters('containername2')]",
+            "name": "[parameters('jobGeneratorContainerName')]",
             "properties": {
-              "image": "[parameters('containerimage2')]",
-              "resources": {
-                "requests": {
-                  "cpu": 1,
-                  "memoryInGb": 1
-                }
-              },
-              "environmentVariables": [
-                {
-                  "name": "ServiceBusConnectionString",
-                  "value": "[parameters('serviceBusConnectionString')]"
-                }
-              ]
-            }
-          },
-          {
-            "name": "[parameters('containername3')]",
-            "properties": {
-              "image": "[parameters('containerimage3')]",
+              "image": "[parameters('jobGeneratorContainerImage')]",
               "resources": {
                 "requests": {
                   "cpu": 1,
@@ -99,6 +85,37 @@
                 {
                   "name": "ServiceBusConnectionString",
                   "value": "[parameters('serviceBusConnectionString')]"
+                },
+                {
+                  "name": "LoggingServiceUrl",
+                  "value": "[parameters('loggingServiceUrl')]"
+                }
+              ]
+            }
+          },
+          {
+            "name": "[parameters('jobProcessingContainerName')]",
+            "properties": {
+              "image": "[parameters('jobProcessingContainerImage')]",
+              "resources": {
+                "requests": {
+                  "cpu": 1,
+                  "memoryInGb": 1
+                }
+              },
+              "ports": [
+                {
+                  "port": 8000
+                }
+              ],
+              "environmentVariables": [
+                {
+                  "name": "ServiceBusConnectionString",
+                  "value": "[parameters('serviceBusConnectionString')]"
+                },
+                {
+                  "name": "LoggingServiceUrl",
+                  "value": "[parameters('loggingServiceUrl')]"
                 }
               ]
             }

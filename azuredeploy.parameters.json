@@ -1,11 +1,17 @@
 {
-  "containerimage1": {
+  "loggingContainerImage": {
     "value": "loekd/azurecontainerinstances.logging:1.0"
   },
-  "containerimage2": {
-    "value": "loekd/azurecontainerinstances.jobprocessing:1.0"
-  },
-  "containerimage3": {
+  "jobGeneratorContainerImage": {
     "value": "loekd/azurecontainerinstances.jobgenerator:1.0"
+  },
+  "jobProcessingContainerImage": {
+    "value": "loekd/azurecontainerinstances.jobprocessing:3.0"
+  },
+  "serviceBusConnectionString": {
+    "value": null
+  },
+  "loggingServiceUrl": {
+    "value": "http://localhost:8080"
   }
 }
