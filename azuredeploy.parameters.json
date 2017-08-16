@@ -8,7 +8,10 @@
   "jobProcessingContainerImage": {
     "value": "loekd/azurecontainerinstances.jobprocessing:3.0"
   },
-  "serviceBusConnectionString": {
+  "serviceBusConnectionStringSend": {
+    "value": null
+  },
+  "serviceBusConnectionStringListen": {
     "value": null
   },
   "loggingServiceUrl": {

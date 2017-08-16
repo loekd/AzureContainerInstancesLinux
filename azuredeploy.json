@@ -30,7 +30,11 @@
       "type": "string",
       "defaultValue": "loekd/azurecontainerinstances.jobprocessing:1.0"
     },
-    "serviceBusConnectionString": {
+    "serviceBusConnectionStringSend": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "serviceBusConnectionStringListen": {
       "type": "securestring",
       "defaultValue": ""
     },
@@ -84,7 +88,7 @@
               "environmentVariables": [
                 {
                   "name": "ServiceBusConnectionString",
-                  "value": "[parameters('serviceBusConnectionString')]"
+                  "value": "[parameters('serviceBusConnectionStringSend')]"
                 },
                 {
                   "name": "LoggingServiceUrl",
@@ -111,7 +115,7 @@
               "environmentVariables": [
                 {
                   "name": "ServiceBusConnectionString",
-                  "value": "[parameters('serviceBusConnectionString')]"
+                  "value": "[parameters('serviceBusConnectionStringListen')]"
                 },
                 {
                   "name": "LoggingServiceUrl",
