@@ -1,15 +1,22 @@
 version: '2'
 
 services:
+  azurecontainerinstances.logging:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:8080"
+
   azurecontainerinstances.jobgenerator:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80:80"
 
-  azurecontainerinstances.logging:
+  azurecontainerinstances.jobprocessing:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8080:8080"
+      - "8000:8000"
+
 

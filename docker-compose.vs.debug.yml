@@ -23,7 +23,7 @@ services:
       args:
         source: ${DOCKER_BUILD_SOURCE}
     environment:
-      - "Microsoft.ServiceBus.ConnectionString"
+      - "ServiceBusConnectionString"
       - DOTNET_USE_POLLING_FILE_WATCHER=1
     volumes:
       - ./AzureContainerInstances.JobGenerator:/app
@@ -36,7 +36,8 @@ services:
   azurecontainerinstances.jobprocessing:
     image: azurecontainerinstances.jobprocessing:dev
     environment:
-      - "Microsoft.ServiceBus.ConnectionString"
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - "ServiceBusConnectionString"
     build:
       args:
         source: ${DOCKER_BUILD_SOURCE}

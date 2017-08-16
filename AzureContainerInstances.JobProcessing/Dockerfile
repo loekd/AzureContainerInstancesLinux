@@ -1,5 +1,6 @@
-FROM microsoft/dotnet:1.1-runtime
+FROM microsoft/aspnetcore:1.1
 ARG source
 WORKDIR /app
+EXPOSE 8000
 COPY ${source:-obj/Docker/publish} .
 ENTRYPOINT ["dotnet", "AzureContainerInstances.JobProcessing.dll"]
