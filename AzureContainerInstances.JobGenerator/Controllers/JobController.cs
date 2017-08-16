@@ -14,7 +14,7 @@ namespace AzureContainerInstances.JobGenerator.Controllers
 	public class JobController : Controller
 	{
 		private const string LoggingServiceUrlSettingName = "LoggingServiceUrl";
-		private const string MicrosoftServicebusConnectionStringSettingName = "Microsoft.ServiceBus.ConnectionString";
+		private const string MicrosoftServicebusConnectionStringSettingName = "ServiceBusConnectionString";
 		private const string QueueName = "TestQueue";
 		private readonly string _connectionStringForWriting;
 		private readonly Uri _loggingServiceUrl;
@@ -61,6 +61,14 @@ namespace AzureContainerInstances.JobGenerator.Controllers
 			await EnqueueJobAsync(jobDescription);
 
 			return Ok(jobDescription);
+		}
+
+		// GET api/job/results
+		[HttpGet]
+		[Route("ping")]
+		public IActionResult GetPing()
+		{
+			return Ok("I am alive.");
 		}
 
 		// GET api/job/results

@@ -3,13 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureContainerInstances.JobGenerator", "AzureContainerInstances.JobGenerator\AzureContainerInstances.JobGenerator.csproj", "{73CDF51F-739B-4EE8-9F47-B0FCC7CF4D87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureContainerInstances.JobGenerator", "AzureContainerInstances.JobGenerator\AzureContainerInstances.JobGenerator.csproj", "{73CDF51F-739B-4EE8-9F47-B0FCC7CF4D87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureContainerInstances.Logging", "AzureContainerInstances.Logging\AzureContainerInstances.Logging.csproj", "{C744A902-15A4-4352-A606-2DAC091E2B5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureContainerInstances.Logging", "AzureContainerInstances.Logging\AzureContainerInstances.Logging.csproj", "{C744A902-15A4-4352-A606-2DAC091E2B5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureContainerInstances.JobProcessing", "AzureContainerInstances.JobProcessing\AzureContainerInstances.JobProcessing.csproj", "{1B3227A8-6830-42C3-969E-2546383EB6C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureContainerInstances.JobProcessing", "AzureContainerInstances.JobProcessing\AzureContainerInstances.JobProcessing.csproj", "{1B3227A8-6830-42C3-969E-2546383EB6C9}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7E4564A1-C3B1-4A07-9404-023BB28FCFB8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF8CB279-0C64-4CAB-975C-4F87DC2C014C}"
+	ProjectSection(SolutionItems) = preProject
+		azuredeploy.json = azuredeploy.json
+		azuredeploy.parameters.json = azuredeploy.parameters.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

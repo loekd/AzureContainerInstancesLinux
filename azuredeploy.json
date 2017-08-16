@@ -30,8 +30,7 @@
       "type": "string",
       "defaultValue": "loekd/azurecontainerinstances.jobprocessing:1.0"
     },
-
-    "Microsoft.ServiceBus.ConnectionString": {
+    "serviceBusConnectionString": {
       "type": "securestring",
       "defaultValue": ""
     }
@@ -67,30 +66,24 @@
             "name": "[parameters('containername2')]",
             "properties": {
               "image": "[parameters('containerimage2')]",
-              "environmentVariables": [
-                {
-                  "name": "Microsoft.ServiceBus.ConnectionString",
-                  "value": "[parameters('Microsoft.ServiceBus.ConnectionString')]"
-                }
-              ],
               "resources": {
                 "requests": {
                   "cpu": 1,
                   "memoryInGb": 1
                 }
-              }
+              },
+              "environmentVariables": [
+                {
+                  "name": "ServiceBusConnectionString",
+                  "value": "[parameters('serviceBusConnectionString')]"
+                }
+              ]
             }
           },
           {
             "name": "[parameters('containername3')]",
             "properties": {
               "image": "[parameters('containerimage3')]",
-              "environmentVariables": [
-                {
-                  "name": "Microsoft.ServiceBus.ConnectionString",
-                  "value": "[parameters('Microsoft.ServiceBus.ConnectionString')]"
-                }
-              ],
               "resources": {
                 "requests": {
                   "cpu": 1,
@@ -100,6 +93,12 @@
               "ports": [
                 {
                   "port": 80
+                }
+              ],
+              "environmentVariables": [
+                {
+                  "name": "ServiceBusConnectionString",
+                  "value": "[parameters('serviceBusConnectionString')]"
                 }
               ]
             }
