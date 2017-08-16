@@ -1,12 +1,15 @@
 {
   "loggingContainerImage": {
-    "value": "loekd/azurecontainerinstances.logging:1.0"
+    "value": "loekd/azurecontainerinstances.logging:4.0"
   },
   "jobGeneratorContainerImage": {
-    "value": "loekd/azurecontainerinstances.jobgenerator:1.0"
+    "value": "loekd/azurecontainerinstances.jobgenerator:4.0"
   },
   "jobProcessingContainerImage": {
-    "value": "loekd/azurecontainerinstances.jobprocessing:3.0"
+    "value": "loekd/azurecontainerinstances.jobprocessing:4.0"
+  },
+  "loggingServiceUrl": {
+    "value": "http://localhost:8080"
   },
   "serviceBusConnectionStringSend": {
     "value": null
@@ -14,7 +17,10 @@
   "serviceBusConnectionStringListen": {
     "value": null
   },
-  "loggingServiceUrl": {
-    "value": "http://localhost:8080"
+  "storageAccountName": {
+    "value": "acidemo"
+  },
+  "storageAccountKey": {
+    "value": null
   }
 }

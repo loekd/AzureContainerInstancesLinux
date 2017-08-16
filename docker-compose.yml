@@ -2,13 +2,13 @@ version: '2'
 
 services:
   azurecontainerinstances.logging:
-    image: "loekd/azurecontainerinstances.logging:1.0"
+    image: "loekd/azurecontainerinstances.logging:4.0"
     build:
       context: ./AzureContainerInstances.Logging
       dockerfile: Dockerfile
 
   azurecontainerinstances.jobgenerator:
-    image: "loekd/azurecontainerinstances.jobgenerator:1.0"
+    image: "loekd/azurecontainerinstances.jobgenerator:4.0"
     environment:
       - "LoggingServiceUrl=http://azurecontainerinstances.logging:8080"
     build:
@@ -16,7 +16,7 @@ services:
       dockerfile: Dockerfile
 
   azurecontainerinstances.jobprocessing:
-    image: "loekd/azurecontainerinstances.jobprocessing:1.0"
+    image: "loekd/azurecontainerinstances.jobprocessing:4.0"
     environment:     
       - "LoggingServiceUrl=http://azurecontainerinstances.logging:8080"
     build:

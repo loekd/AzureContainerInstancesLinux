@@ -9,13 +9,13 @@ services:
     command: /bin/bash -c "dotnet restore ./AzureContainerInstancesLinux.sln && dotnet publish ./AzureContainerInstancesLinux.sln -c Release -o ./obj/Docker/publish"
 
   azurecontainerinstances.logging:
-    image: "loekd/azurecontainerinstances.logging"    
+    image: "loekd/azurecontainerinstances.logging:4.0"    
     build:
       context: .\AzureContainerInstances.Logging
       dockerfile: Dockerfiles  
 
   azurecontainerinstances.jobgenerator:
-    image: "loekd/azurecontainerinstances.jobgenerator"     
+    image: "loekd/azurecontainerinstances.jobgenerator:4.0"     
     build:
       context: .\AzureContainerInstances.JobGenerator
       dockerfile: Dockerfile
@@ -23,7 +23,7 @@ services:
       - "Microsoft.ServiceBus.ConnectionString="
     
   azurecontainerinstances.jobprocessing:
-    image: "loekd/azurecontainerinstances.jobprocessing"
+    image: "loekd/azurecontainerinstances.jobprocessing:4.0"
     build:
       context: .\AzureContainerInstances.JobProcessing
       dockerfile: Dockerfile

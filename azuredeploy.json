@@ -28,7 +28,7 @@
     },
     "jobProcessingContainerImage": {
       "type": "string",
-      "defaultValue": "loekd/azurecontainerinstances.jobprocessing:1.0"
+      "defaultValue": "loekd/azurecontainerinstances.jobprocessing:3.0"
     },
     "serviceBusConnectionStringSend": {
       "type": "securestring",
@@ -41,6 +41,22 @@
     "loggingServiceUrl": {
       "type": "string",
       "defaultValue": "http://azurecontainerinstances.logging:8080"
+    },
+    "shareName": {
+      "type": "string",
+      "defaultValue": "acidemoshare"
+    },
+    "volumeName": {
+      "type": "string",
+      "defaultValue": "acidemovolume"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "acidemo"
+    },
+    "storageAccountKey": {
+      "type": "securestring",
+      "defaultValue": ""
     }
   },
   "variables": {
@@ -63,6 +79,12 @@
                   "memoryInGb": 1
                 }
               },
+              "volumeMounts": [
+                {
+                  "name": "[parameters('volumeName')]",
+                  "mountPath": "/aci/logs/"
+                }
+              ],
               "ports": [
                 {
                   "port": 8080
@@ -83,6 +105,12 @@
               "ports": [
                 {
                   "port": 80
+                }
+              ],
+              "volumeMounts": [
+                {
+                  "name": "[parameters('volumeName')]",
+                  "mountPath": "/aci/logs/"
                 }
               ],
               "environmentVariables": [
@@ -134,7 +162,17 @@
               "port": "80"
             }
           ]
-        }
+        },
+        "volumes": [
+          {
+            "name": "[parameters('volumeName')]",
+            "azureFile": {
+              "shareName": "[parameters('shareName')]",
+              "storageAccountName": "[parameters('storageAccountName')]",
+              "storageAccountKey": "[parameters('storageAccountKey')]"
+            }
+          }
+        ]
       }
     }
   ],

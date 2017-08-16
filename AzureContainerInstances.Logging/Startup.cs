@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using AzureContainerInstances.Logging.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,8 +31,31 @@ namespace AzureContainerInstances.Logging
             services.AddMvc();
 
 			//add logger
-	        services.AddSingleton<IMessageLogger>(new InMemoryMessageLogger());
-        }
+
+			string folder = "/aci/logs/";
+			bool folderExists = false;
+
+			try
+			{
+				//Directory.Exists causes an uncatchable exception.
+				var list = string.Join(" | ", Directory.EnumerateFiles("/aci/logs").ToList());
+				if (list != null)
+				{
+					folderExists = true;
+				}
+			}
+			catch
+			{ }
+
+			if (folderExists)
+			{
+				services.AddSingleton<IMessageLogger>(new FileMessageLogger(folder));
+			}
+			else
+			{
+				services.AddSingleton<IMessageLogger>(new InMemoryMessageLogger());
+			}
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

@@ -13,9 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		azuredeploy.json = azuredeploy.json
 		azuredeploy.parameters.json = azuredeploy.parameters.json
+		build-containers.bat = build-containers.bat
+		push-containers.bat = push-containers.bat
+		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureContainerInstances.JobProcessing", "AzureContainerInstances.JobProcessing\AzureContainerInstances.JobProcessing.csproj", "{F56263BE-DA09-4B25-92FD-9765653CF213}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureContainerInstances.JobProcessing", "AzureContainerInstances.JobProcessing\AzureContainerInstances.JobProcessing.csproj", "{F56263BE-DA09-4B25-92FD-9765653CF213}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

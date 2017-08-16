@@ -7,6 +7,7 @@ using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using System.IO;
 
 namespace AzureContainerInstances.JobGenerator.Controllers
 {
@@ -87,6 +88,40 @@ namespace AzureContainerInstances.JobGenerator.Controllers
 			}
 			return NoContent();
 		}
+
+
+		// GET api/job/folder
+		[HttpGet]
+		[Route("folders")]
+		public IActionResult GetFolders()
+		{
+			try
+			{
+				var folders = string.Join(" | ", Directory.EnumerateDirectories("/"));
+				return Ok($"All root folders:{folders}");
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		// GET api/job/folder
+		[HttpGet]
+		[Route("files")]
+		public IActionResult GetFiles()
+		{
+			try
+			{
+				var files = string.Join(" | ", Directory.EnumerateFiles("/aci/logs"));
+				return Ok($"All log files:{files}");
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
 
 
 		// POST api/job

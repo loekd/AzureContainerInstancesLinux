@@ -13,7 +13,7 @@ When deployed, you'll have 3 containers running.
 2. jobprocessor
  An ASPNET core web api that is used to process jobs read from the Service bus queue.
 3. logging
- An ASPNET core web api that is used to log informational messages from the other two containers.
+ An ASPNET core web api that is used to log informational messages from the other two containers. The information is logged into files, that are written to a mounted volume (an Azure File Share).
 
 ## Prerequisites
 
@@ -23,7 +23,47 @@ When deployed, you'll have 3 containers running.
   - Create two shared access policies: `Send` and `Listen`, with matching access rights.
   - Pass the connection strings of the policies to the deployment, for instance by storing them the file [azuredeploy.parameters.json](https://github.com/loekd/AzureContainerInstancesLinux/blob/master/azuredeploy.parameters.json)
      Remove the entitypath at the end, e.g.: `Endpoint=sb://my.servicebus.windows.net/;SharedAccessKeyName=Listen;SharedAccessKey=6BHFGHJUYTGHJYGO8ujk3ouyh+E=;`
-     
+
+2. Prepare a mountable File Share
+
+  - Create an Azure Storage account. (general purpose)
+  - Inside the storage account, create a file share called `acidemoshare`
+  - Copy the account access key.
+  - Paste the account key in the azuredeploy.parameters.json file under parameter `storageAccountKey`
+
+After this, your `azuredeploy.parameters.json` file should look similar to this:
+
+``` json
+{
+  "loggingContainerImage": {
+    "value": "loekd/azurecontainerinstances.logging:4.0"
+  },
+  "jobGeneratorContainerImage": {
+    "value": "loekd/azurecontainerinstances.jobgenerator:4.0"
+  },
+  "jobProcessingContainerImage": {
+    "value": "loekd/azurecontainerinstances.jobprocessing:4.0"
+  },
+  "loggingServiceUrl": {
+    "value": "http://localhost:8080"
+  },
+  "serviceBusConnectionStringSend": {
+    "value": "Endpoint=sb://my.servicebus.windows.net/;SharedAccessKeyName=Send;SharedAccessKey=Nb5fgh+tyj46y4h35gheh==;"
+  },
+  "serviceBusConnectionStringListen": {
+    "value": "Endpoint=sb://my.servicebus.windows.net/;SharedAccessKeyName=Listen;SharedAccessKey=dsfvsgsgb232gergEwe4gERBVERb+E=;"
+  },
+  "storageAccountName": {
+    "value": "acidemo"
+  },
+  "storageAccountKey": {
+    "value": "3BPpY82Qs1nYq9iD/45gethrh545/p1gerb43t3G3gtgDHE+hfreg34g4RGERG+afa3fGSD+dsvsgwDSF=="
+  }
+}
+```
+
+
+
 ## Deploy the template     
      
 1. Create a resource group in `westus`. *This won't work anywhere else (at the time of writing this).*
@@ -85,4 +125,6 @@ When deployed, you'll have 3 containers running.
  ## Debug
  Debugging should also work locally, provided you configure user-level environment variable **before you start Visual Studio**.
  `ServiceBusConnectionString` that has both Listen and Send rights on your Service Bus queue.
+
+ When debugging, the Azure File Share is not used. Stuff is logged in memory, in a singleton object.
  
