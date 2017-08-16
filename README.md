@@ -61,7 +61,7 @@ When deployed, you'll have 3 containers running.
   This will enqueue a task called 'Perform Task 1'. The 'jobprocessor' container will receive and 'execute' the task. (simply by logging it)
   
  ### Validate processing
- - In a browser, navigate to `http://104.210.35.56/api/jobs/results` using the IP address from above as the host.
+ - In a browser, navigate to `http://1.2.3.4/api/jobs/results` using the IP address from above as the host.
   This will query all logging from the 'logging' container and display it.
  - The output should be similar to this:
  
