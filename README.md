@@ -21,7 +21,7 @@ When deployed, you'll have 3 containers running.
 
   - Create a queue called 'TestQueue'.
   - Create two shared access policies: `Send` and `Listen`, with matching access rights.
-  - Pass the connection strings of the policies to the deployment, for instance by storing them the file [azuredeploy.parameters.json][https://github.com/loekd/AzureContainerInstancesLinux/blob/master/azuredeploy.parameters.json]
+  - Pass the connection strings of the policies to the deployment, for instance by storing them the file [azuredeploy.parameters.json](https://github.com/loekd/AzureContainerInstancesLinux/blob/master/azuredeploy.parameters.json)
      Remove the entitypath at the end, e.g.: `Endpoint=sb://my.servicebus.windows.net/;SharedAccessKeyName=Listen;SharedAccessKey=6BHFGHJUYTGHJYGO8ujk3ouyh+E=;`
      
 ## Deploy the template     
@@ -82,5 +82,7 @@ When deployed, you'll have 3 containers running.
  
  Feel free to use the ideas and source code in this project in any way you like.
  
- 
+ ## Debug
+ Debugging should also work locally, provided you configure user-level environment variable **before you start Visual Studio**.
+ `ServiceBusConnectionString` that has both Listen and Send rights on your Service Bus queue.
  
