@@ -24,9 +24,9 @@ namespace AzureContainerInstances.Logging.Controllers
 		{
 			var allMessages = _messageLogger.GetAllMessages().ToList();
 			if (allMessages.Count == 0)
-				allMessages = new List<string> { "There are no messages in the system yet." };
+				return Ok(new List<LogMessage> { new LogMessage { Message = "There are no messages in the system yet." } });
 
-			return Ok(allMessages.Select(m => new LogMessage{Message = m}).ToArray());
+			return Ok(allMessages.Select(m => new LogMessage { Message = m }).ToArray());
 		}
 
 		// POST api/log
